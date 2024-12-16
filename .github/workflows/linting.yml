@@ -1,0 +1,13 @@
+# This workflow will enforce FIREWHEEL ecosystem standard linting
+
+name: FIREWHEEL Linting
+
+on:
+  push:
+    branches: [ "*" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  call-firewheel-linting:
+    uses: sandialabs/firewheel/.github/workflows/linting.yml@main

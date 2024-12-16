@@ -1,0 +1,11 @@
+name: vyos
+attributes:
+    depends: []
+    provides: []
+model_components:
+    depends:
+        - base_objects
+        - generic_vm_objects
+model_component_objects: model_component_objects.py
+vm_resources:
+    - vm_resources/interface_remap.py

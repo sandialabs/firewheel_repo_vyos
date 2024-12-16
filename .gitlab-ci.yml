@@ -1,0 +1,77 @@
+###############################
+# FIREWHEEL's Continuous Integration
+#
+# This GitLab CI file enables testing of FIREWHEEL
+# on a variety of operating systems and versions of
+# Python.
+#
+# It makes heavy use of Anchors to save space.
+# see: https://docs.gitlab.com/ce/ci/yaml/README.html#anchors
+#
+###############################
+
+###############################
+# Change pip's cache directory to be inside the project
+# directory since we can only cache local items.
+###############################
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+
+###############################
+# Pip's cache doesn't store the python packages
+# https://pip.pypa.io/en/stable/reference/pip_install/#caching
+#
+# If you want to also cache the installed packages, you have to install
+# them in a virtualenv and cache it as well.
+###############################
+cache:
+  paths:
+    - .cache/pip
+    - fwpy/
+
+
+before_script:
+  - pushd /tmp
+  - python3.8 -m venv fwpy
+  - source fwpy/bin/activate
+  - popd
+  - python -m pip install $PIP_ARGS --upgrade wheel setuptools pip
+  - python -m pip install $PIP_ARGS pip --upgrade
+  - python -m pip install $PIP_ARGS tox
+
+
+###############################
+# Creating a few defaults and setting up the Pipeline stages.
+###############################
+default:
+  tags:
+    - ubuntu1804
+
+stages:
+  - lint
+  - upstream
+
+###############################
+# Lint Stages
+#
+# This includes:
+# * lint-code: Linting all executable code
+# * lint-docs: Linting all documentation
+###############################
+lint-code:
+  stage: lint
+  script:
+    - tox -e lint
+
+lint-docs:
+  stage: lint
+  script:
+    - tox -e lint-docs
+
+# Trigger our downstream FIREWHEEL pipeline.
+update-docs:
+  stage: upstream
+  trigger: firewheel/firewheel
+  only:
+    - master

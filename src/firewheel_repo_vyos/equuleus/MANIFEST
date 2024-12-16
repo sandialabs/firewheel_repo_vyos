@@ -1,0 +1,12 @@
+name: vyos.equuleus
+attributes:
+    depends: []
+    provides: []
+model_components:
+    depends:
+        - vyos
+images:
+    - paths:
+        - vyos-equuleus.qc2.xz
+      architecture: x86_64
+model_component_objects: model_component_objects.py
