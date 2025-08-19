@@ -105,22 +105,22 @@ class Helium118:
 
         self.vm = getattr(self, "vm", {})
 
-        if "architecture" not in self.vm:
+        if not self.vm.get("architecture"):
             self.vm["architecture"] = "x86_64"
-        if "vcpu" not in self.vm:
+        if not self.vm.get("vcpu"):
             self.vm["vcpu"] = {
                 "model": "qemu64",
                 "sockets": 1,
                 "cores": 1,
                 "threads": 1,
             }
-        if "mem" not in self.vm:
+        if not self.vm.get("mem"):
             self.vm["mem"] = 256
-        if "drives" not in self.vm:
+        if not self.vm.get("drives"):
             self.vm["drives"] = [
                 {"db_path": "vyos-1.1.8.qc2.xz", "file": "vyos-1.1.8.qc2"}
             ]
-        if "vga" not in self.vm:
+        if not self.vm.get("vga"):
             self.vm["vga"] = "std"
 
         self.set_image("vyos-1.1.8")
