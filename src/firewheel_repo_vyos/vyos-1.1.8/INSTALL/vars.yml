@@ -1,0 +1,3 @@
+---
+required_files:
+  - destination: "{{ mc_dir }}/images/vyos-1.1.8.qc2.xz"
