@@ -1,3 +1,0 @@
----
-required_files:
-  - destination: "{{ mc_dir }}/vm_resources/interface_remap.py"
