@@ -1,0 +1,25 @@
+name: Draft Release
+
+on:
+  push:
+    branches:
+      - main
+  pull_request_target:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - labeled
+      - unlabeled
+
+jobs:
+  call-firewheel-release-drafter:
+    name: Update release notes (FIREWHEEL-style)
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: write
+    uses: sandialabs/firewheel_ci/.github/workflows/release-drafter.yml@main
+
+permissions:
+  contents: read
