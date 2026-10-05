@@ -524,6 +524,7 @@ class VyOSConfiguration:
         """
         # Add the required setup at the top of the config script
         config = ""
+        # fmt: off
         config += (
             "#!/bin/vbash\n"
             "\n"
@@ -531,6 +532,7 @@ class VyOSConfiguration:
             "source /opt/vyatta/etc/functions/script-template\n"
             "\n"
         )
+        # fmt: on
 
         # The following loop was put in place due to the commit sporadically
         # failing due to being unable to acquire a write lock causing the
@@ -544,6 +546,7 @@ class VyOSConfiguration:
         # The re-try is not very clean in the logs as you will see many warnings
         # that the configuration has already been set from the previous loop
         # execution, however it does end up working and that's the desired end result.
+        # fmt: off
         config += (
             "COMMIT_FAILURE=1\n"
             "\n"
@@ -551,6 +554,7 @@ class VyOSConfiguration:
             "configure\n"
             "\n"
         )
+        # fmt: on
 
         for child in self.root.children:
             child_commands = child.generate_commands("", [])
@@ -559,6 +563,7 @@ class VyOSConfiguration:
                 config += f"set {cmd}\n"
         config += "\n"
 
+        # fmt: off
         config += (
             "commit\n"
             "\n"
@@ -579,6 +584,7 @@ class VyOSConfiguration:
             "exit\n"
             "exit\n"
         )
+        # fmt: on
 
         config += "sudo chown -R root:vyattacfg /opt/vyatta/config/active\n"
         config += "sudo chown -R root:vyattacfg /opt/vyatta/etc/quagga/\n"
